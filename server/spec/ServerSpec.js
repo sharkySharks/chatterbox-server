@@ -35,6 +35,7 @@ describe('Node Server Request Listener Function', function() {
   });
 
   it('Should send back an object', function() {
+    console.log("This is where we send back an object!")
     var req = new stubs.request('/classes/room1', 'GET');
     var res = new stubs.response();
 
