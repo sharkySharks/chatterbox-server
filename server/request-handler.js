@@ -1,3 +1,4 @@
+var url = require('url');
 
 var headers = {
   "access-control-allow-origin": "*",
@@ -13,6 +14,10 @@ var sendResponse = function(response, data, statusCode){
   statusCode = statusCode || 200;
   response.writeHead(statusCode, headers);
   response.end(JSON.stringify(data));
+};
+
+var router = {
+  '/': true, '/classes/room1': true, '/classes/messages':true
 };
 
 var messages = [
@@ -42,9 +47,10 @@ exports.requestHandler = function(request, response) {
   console.log("Serving request type " + request.method + " for url " + request.url);
 
   var action = actions[request.method];
+  var parsedURL = url.parse(request.url);
 
   if ( action ) {
-    if ( request.url !== "/" ) {
+    if ( !router[parsedURL.pathname] ) {
       sendResponse(response, null, 404);
     }
     action(request, response);
