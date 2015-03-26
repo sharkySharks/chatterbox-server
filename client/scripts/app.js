@@ -1,7 +1,7 @@
 (function(){
 
   window.app = {
-    existingRooms:[],
+    existingRooms:['lobby'],
     server: 'http://127.0.0.1:3000/',
     init: function(){
 
@@ -43,12 +43,12 @@
 
     populateMessages: function(data){
       app.clearMessages()
-
       for (var i=0;i<data.results.length;i++){
-            if (data.results[i].roomname===$("#roomSelect option:selected").text()){
-              app.addMessage(data.results[i])
-            }
-          }
+        var room = data.results[i].roomname || 'lobby';
+        if (room===$("#roomSelect option:selected").text()){
+          app.addMessage(data.results[i])
+        }
+      }
     },
 
     clearMessages: function(message){
@@ -62,19 +62,19 @@
     },
 
     populateRooms:function(data){
-        var rooms=[]
+      var rooms=[]
 
-          for (var i=0;i<data.results.length;i++){
-            rooms.push(data.results[i].roomname)
+        for (var i=0;i<data.results.length;i++){
+          var room = data.results[i].roomname || 'lobby';
+          rooms.push(room);
+        }
+        
+        for (var i=0;i<rooms.length;i++){
+          if (app.existingRooms.indexOf(rooms[i]) ===-1){
+            app.addRoom(rooms[i])
+            app.existingRooms.push(rooms[i])            
           }
-          
-          for (var i=0;i<rooms.length;i++){
-            if (app.existingRooms.indexOf(rooms[i]) ===-1){
-              app.addRoom(rooms[i])
-              app.existingRooms.push(rooms[i])            
-            }
-          }
-
+        }
     },
 
     addRoom: function(rooms){
