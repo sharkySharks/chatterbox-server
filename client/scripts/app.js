@@ -14,10 +14,11 @@
         contentType: 'application/json',
         success: function (data) {
           app.fetch()
-          console.log('chatterbox: Message sent');
+          console.log("Success! ", data.results);
         },
         error: function (data) {
           console.error('chatterbox: Failed to send message');
+          console.log("Error: ", data);
         }
       });
     },
@@ -26,7 +27,6 @@
       $.ajax({
         url: app.server,
         type: 'GET',
-        data: {'order': '-createdAt'},
         contentType: 'application/json',
         success: function (data) {
           console.log(data)
@@ -90,7 +90,7 @@
 
       var userName = window.location.href.split('username=')[1];
       var message = {
-        username: userName.slice(0,-1),
+        username: userName,
         text:$("#message").val(),
         roomname:$("#roomSelect option:selected").text()
       }
