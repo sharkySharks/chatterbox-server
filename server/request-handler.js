@@ -1,4 +1,5 @@
 var url = require('url');
+var fs = require('fs');
 
 var headers = {
   "access-control-allow-origin": "*",
@@ -32,6 +33,10 @@ var actions = {
 
     request.on('data', function(data){
       messages.push(JSON.parse(data));
+      fs.appendFile('output.txt', data, function(err){
+        if ( err ) throw err;
+        console.log('Success!');
+      });
     });
 
     request.on('end', function(){
