@@ -21,19 +21,28 @@ var router = {
   '/': true, '/classes/room1': true, '/classes/messages':true
 };
 
-var messages = [
-
-];
+var messages = [];
 
 var actions = {
   "GET": function(request, response){
+    /* Working on implementing external file for data*/
+    // fs.readFile('../output.txt', function(err, data){
+      // if ( err ) console.log('err');
+      //   console.log(data);
+        // var messages = data.split('/').slice(0, -1).map(function(value){
+        //   return JSON.parse(value);
+        // });
+    // });
     sendResponse(response, {results: messages});
   },
   "POST": function(request, response){
 
     request.on('data', function(data){
       messages.push(JSON.parse(data));
-      fs.appendFile('output.txt', data, function(err){
+      var toWrite = data + '/';
+
+      /* Working on implementing external file for data*/
+      fs.appendFile('output.txt', toWrite, function(err){
         if ( err ) throw err;
         console.log('Success!');
       });
